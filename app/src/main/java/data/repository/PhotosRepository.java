@@ -9,7 +9,8 @@ import data.endpoint.Constants;
 import data.endpoint.Service;
 import io.reactivex.Single;
 import jp.styler.challenge.BuildConfig;
-import model.SearchPhotoResponse;
+import model.Photo;
+import model.PhotosResponse;
 
 public class PhotosRepository {
 
@@ -31,12 +32,12 @@ public class PhotosRepository {
         ).map(this::mapPhotoSearch);
     }
 
-    private List<String> mapPhotoSearch(SearchPhotoResponse searchPhotoResponse) {
+    private List<String> mapPhotoSearch(PhotosResponse searchPhotoResponse) {
 
         List<String> photoUrls = new ArrayList();
 
-        for (SearchPhotoResponse.Photo photo : searchPhotoResponse.photo) {
-            photoUrls.add(String.format(Constants.IMAGE_CONSTRUCT_THUMB, photo.farm, photo.server, photo.id, photo.secret));
+        for (Photo photo : searchPhotoResponse.getPhotos().getPhoto()) {
+            photoUrls.add(String.format(Constants.IMAGE_CONSTRUCT_THUMB, photo.getFarm(), photo.getServer(), photo.getId(), photo.getSecret()));
         }
         return photoUrls;
     }

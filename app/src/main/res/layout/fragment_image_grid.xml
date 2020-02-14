@@ -1,27 +1,49 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:baseApplication="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/default_padding"
     tools:context="view.grid.ImageGridFragment">
 
+    <ProgressBar
+        android:id="@+id/fragment_grid_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        baseApplication:layout_constraintBottom_toBottomOf="@+id/fragment_grid_view"
+        baseApplication:layout_constraintEnd_toEndOf="parent"
+        baseApplication:layout_constraintStart_toStartOf="@+id/fragment_grid_view"
+        baseApplication:layout_constraintTop_toTopOf="@+id/fragment_grid_view" />
+
+    <TextView
+        android:id="@+id/fragment_grid_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        baseApplication:layout_constraintBottom_toBottomOf="@+id/fragment_grid_view"
+        baseApplication:layout_constraintEnd_toEndOf="parent"
+        baseApplication:layout_constraintStart_toStartOf="@+id/fragment_grid_view"
+        baseApplication:layout_constraintTop_toTopOf="@+id/fragment_grid_view" />
+
 
     <EditText
         android:id="@+id/fragment_grid_input_searh"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/fragment_grid_search_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></EditText>
+        baseApplication:layout_constraintEnd_toStartOf="@+id/fragment_grid_search_btn"
+        baseApplication:layout_constraintStart_toStartOf="parent"
+        baseApplication:layout_constraintTop_toTopOf="parent"></EditText>
 
     <Button
         android:id="@+id/fragment_grid_search_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fragment_grid_search_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        baseApplication:layout_constraintEnd_toEndOf="parent"
+        baseApplication:layout_constraintTop_toTopOf="parent" />
 
 
     <GridView
@@ -32,10 +54,10 @@
         android:numColumns="auto_fit"
         android:stretchMode="spacingWidthUniform"
         android:verticalSpacing="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_grid_input_searh" />
+        baseApplication:layout_constraintBottom_toBottomOf="parent"
+        baseApplication:layout_constraintEnd_toEndOf="parent"
+        baseApplication:layout_constraintStart_toStartOf="parent"
+        baseApplication:layout_constraintTop_toBottomOf="@+id/fragment_grid_input_searh" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

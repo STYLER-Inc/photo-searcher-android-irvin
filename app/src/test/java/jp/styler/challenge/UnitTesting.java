@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import data.endpoint.Constants;
-import model.SearchPhotoResponse;
+import model.PhotosResponse;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -31,7 +31,7 @@ public class UnitTesting {
         Gson gson = new Gson();
 
 
-        SearchPhotoResponse response = gson.fromJson(json, SearchPhotoResponse.class);
+        PhotosResponse response = gson.fromJson(json, PhotosResponse.class);
 
 
         assertTrue(response != null);

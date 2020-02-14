@@ -6,11 +6,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import javax.inject.Inject;
 
@@ -31,6 +33,10 @@ public class ImageGridFragment extends BaseFragment {
     GridView gridView;
     @BindView(R.id.fragment_grid_input_searh)
     EditText inputSearch;
+    @BindView(R.id.fragment_grid_loading)
+    ProgressBar loading;
+    @BindView(R.id.fragment_grid_error)
+    TextView errorView;
 
 
     @Inject
@@ -43,20 +49,39 @@ public class ImageGridFragment extends BaseFragment {
         return R.layout.fragment_image_grid;
     }
 
-    public static ImageGridFragment newInstance() {
-        return new ImageGridFragment();
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GridViewModel.class);
 
-        viewModel.getPhotoUrls().observe(this, photoUrls -> {
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(GridViewModel.class);
 
+        observeViewModel();
+    }
+
+    private void observeViewModel() {
+        viewModel.getPhotoUrls().observe(getViewLifecycleOwner(), photoUrls -> {
             GridAdapter gridAdapter = new GridAdapter(getContext(), photoUrls);
-
             gridView.setAdapter(gridAdapter);
+        });
 
+        viewModel.getError().observe(getViewLifecycleOwner(), isError -> {
+            if (isError != null) if(isError) {
+                errorView.setVisibility(View.VISIBLE);
+                gridView.setVisibility(View.GONE);
+                errorView.setText("An Error Occurred While Loading Data!");
+            }else {
+                errorView.setVisibility(View.GONE);
+                errorView.setText(null);
+            }
+        });
+
+        viewModel.getLoading().observe(getViewLifecycleOwner(), isloading -> {
+            if (isloading != null) {
+                loading.setVisibility(isloading ? View.VISIBLE : View.GONE);
+                if (isloading) {
+                    errorView.setVisibility(View.GONE);
+                    gridView.setVisibility(View.GONE);
+                }
+            }
         });
     }
 
@@ -65,7 +90,7 @@ public class ImageGridFragment extends BaseFragment {
 
         String typedText = inputSearch.getText().toString();
 
-        if (TextUtils.isEmpty(typedText)) {
+        if (!TextUtils.isEmpty(typedText)) {
             viewModel.searchPhotos(typedText);
         } else {
             Toast.makeText(getContext(), R.string.enter_search, Toast.LENGTH_SHORT).show();

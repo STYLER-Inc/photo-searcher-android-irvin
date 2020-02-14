@@ -19,12 +19,21 @@ public class GridViewModel extends ViewModel {
     private final PhotosRepository photosRepository;
 
     private CompositeDisposable compositeDisposable;
-    private MutableLiveData<List<String>> photoUrls;
+    private MutableLiveData photoUrls = new MutableLiveData();
+    private MutableLiveData repoLoadError = new MutableLiveData<>();
+    private MutableLiveData loading = new MutableLiveData<>();
 
     LiveData<List<String>> getPhotoUrls() {
         return photoUrls;
     }
 
+    LiveData<Boolean> getError() {
+        return repoLoadError;
+    }
+
+    LiveData<Boolean> getLoading() {
+        return loading;
+    }
 
     @Inject
     public GridViewModel(PhotosRepository repository) {
@@ -37,18 +46,22 @@ public class GridViewModel extends ViewModel {
         compositeDisposable.add(
                 photosRepository.getPhotos(typedText)
                         .subscribeOn(Schedulers.io())
-                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(disposable -> loading.setValue(false))
                         .subscribeWith(
                                 new DisposableSingleObserver<List<String>>() {
 
                                     @Override
                                     public void onSuccess(List<String> value) {
                                         photoUrls.setValue(value);
+                                        repoLoadError.setValue(false);
+                                        loading.setValue(false);
                                     }
 
                                     @Override
                                     public void onError(Throwable e) {
-
+                                        repoLoadError.setValue(true);
+                                        loading.setValue(false);
                                     }
                                 }
                         )

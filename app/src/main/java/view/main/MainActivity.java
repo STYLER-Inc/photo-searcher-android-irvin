@@ -2,8 +2,6 @@ package view.main;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.FragmentTransaction;
-
 import injection.BaseActivity;
 import jp.styler.challenge.R;
 import view.grid.ImageGridFragment;
@@ -20,8 +18,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_activity_content, ImageGridFragment.newInstance(), ImageGridFragment.TAG);
-        transaction.commit();
+        if(savedInstanceState == null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_content, new ImageGridFragment()).commit();
     }
 }
