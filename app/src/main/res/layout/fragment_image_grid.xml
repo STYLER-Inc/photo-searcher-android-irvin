@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_light"
     android:padding="@dimen/default_padding"
     tools:context="view.grid.ImageGridFragment">
 
@@ -11,9 +12,16 @@
         android:id="@+id/fragment_grid_input_searh"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="@string/fragment_grid_input_searh_hint"
+        android:textColor="@color/primary_dark"
+        android:textColorHint="@color/primary_dark"
         baseApplication:layout_constraintEnd_toStartOf="@+id/fragment_grid_search_btn"
         baseApplication:layout_constraintStart_toStartOf="parent"
-        baseApplication:layout_constraintTop_toTopOf="parent"></EditText>
+        baseApplication:layout_constraintTop_toTopOf="parent">
+
+        <requestFocus />
+
+    </EditText>
 
     <Button
         android:id="@+id/fragment_grid_search_btn"
@@ -28,7 +36,7 @@
         android:id="@+id/fragment_grid_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#F9F9F9"
+        android:background="@android:color/transparent"
         android:horizontalSpacing="5dp"
         android:numColumns="3"
         android:verticalSpacing="5dp"
