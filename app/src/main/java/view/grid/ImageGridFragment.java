@@ -68,8 +68,15 @@ public class ImageGridFragment extends BaseFragment {
 
     private void observeViewModel() {
         viewModel.getPhotoUrls().observe(getViewLifecycleOwner(), photos -> {
-            GridAdapter gridAdapter = new GridAdapter(getContext(), photos, imageClickedListener);
-            gridView.setAdapter(gridAdapter);
+            if (photos.size() > 0) {
+                gridView.setVisibility(View.VISIBLE);
+                GridAdapter gridAdapter = new GridAdapter(getContext(), photos, imageClickedListener);
+                gridView.setAdapter(gridAdapter);
+                errorView.setText("No Results Found!");
+            } else {
+                errorView.setVisibility(View.VISIBLE);
+            }
+
         });
 
         viewModel.getError().observe(getViewLifecycleOwner(), isError -> {
