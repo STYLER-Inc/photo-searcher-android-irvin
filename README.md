@@ -18,3 +18,5 @@ Code Challenge Android
 * USED [Espresso - Testing] 
 - [Firebase & Firestore] 
 
+
+![Sample](https://github.com/STYLER-Inc/photo-searcher-android-irvin/blob/challenge-branch/gif/challengegic.gif "Challenge sample")
