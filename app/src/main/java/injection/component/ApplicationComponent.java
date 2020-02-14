@@ -20,7 +20,7 @@ import injection.module.ContextModule;
         AndroidSupportInjectionModule.class,
         ContextModule.class,
         ActivityBindings.class})
-public interface ApplicationComponent  extends AndroidInjector<BaseApplication> {
+public interface ApplicationComponent extends AndroidInjector<BaseApplication> {
 
     void inject(BaseApplication baseApplication);
 

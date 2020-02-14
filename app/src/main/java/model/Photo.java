@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import data.endpoint.Constants;
+
 public class Photo implements Parcelable {
 
     @SerializedName("id")
@@ -49,8 +51,15 @@ public class Photo implements Parcelable {
             return (new Photo[size]);
         }
 
+    };
+
+    public String getThumb() {
+        return String.format(Constants.IMAGE_CONSTRUCT_BIG, getFarm(), getServer(), getId(), getSecret(), "b");
     }
-            ;
+
+    public String getHighRes() {
+        return String.format(Constants.IMAGE_CONSTRUCT_THUMB, getFarm(), getServer(), getId(), getSecret());
+    }
 
     protected Photo(Parcel in) {
         this.id = ((String) in.readValue((String.class.getClassLoader())));

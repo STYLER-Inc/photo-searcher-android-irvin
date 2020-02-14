@@ -13,18 +13,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import model.Photo;
 
 public class GridViewModel extends ViewModel {
 
     private final PhotosRepository photosRepository;
 
     private CompositeDisposable compositeDisposable;
-    private MutableLiveData photoUrls = new MutableLiveData();
+    private MutableLiveData photos = new MutableLiveData();
     private MutableLiveData repoLoadError = new MutableLiveData<>();
     private MutableLiveData loading = new MutableLiveData<>();
 
-    LiveData<List<String>> getPhotoUrls() {
-        return photoUrls;
+    LiveData<List<Photo>> getPhotoUrls() {
+        return photos;
     }
 
     LiveData<Boolean> getError() {
@@ -49,11 +50,11 @@ public class GridViewModel extends ViewModel {
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(disposable -> loading.setValue(false))
                         .subscribeWith(
-                                new DisposableSingleObserver<List<String>>() {
+                                new DisposableSingleObserver<List<Photo>>() {
 
                                     @Override
-                                    public void onSuccess(List<String> value) {
-                                        photoUrls.setValue(value);
+                                    public void onSuccess(List<Photo> value) {
+                                        photos.setValue(value);
                                         repoLoadError.setValue(false);
                                         loading.setValue(false);
                                     }

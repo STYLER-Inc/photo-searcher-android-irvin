@@ -1,11 +1,9 @@
 package data.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import data.endpoint.Constants;
 import data.endpoint.Service;
 import io.reactivex.Single;
 import jp.styler.challenge.BuildConfig;
@@ -21,7 +19,7 @@ public class PhotosRepository {
         this.service = service;
     }
 
-    public Single<List<String>> getPhotos(String typedText) {
+    public Single<List<Photo>> getPhotos(String typedText) {
 
         return service.searchPhotos(
                 "flickr.photos.search",
@@ -32,13 +30,7 @@ public class PhotosRepository {
         ).map(this::mapPhotoSearch);
     }
 
-    private List<String> mapPhotoSearch(PhotosResponse searchPhotoResponse) {
-
-        List<String> photoUrls = new ArrayList();
-
-        for (Photo photo : searchPhotoResponse.getPhotos().getPhoto()) {
-            photoUrls.add(String.format(Constants.IMAGE_CONSTRUCT_THUMB, photo.getFarm(), photo.getServer(), photo.getId(), photo.getSecret()));
-        }
-        return photoUrls;
+    private List<Photo> mapPhotoSearch(PhotosResponse searchPhotoResponse) {
+        return searchPhotoResponse.getPhotos().getPhoto();
     }
 }

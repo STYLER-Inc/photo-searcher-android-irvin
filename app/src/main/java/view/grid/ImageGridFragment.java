@@ -21,7 +21,9 @@ import butterknife.OnClick;
 import data.factories.ViewModelFactory;
 import injection.BaseFragment;
 import jp.styler.challenge.R;
+import view.detail.ImageDetailFragment;
 import view.grid.adapter.GridAdapter;
+import view.grid.adapter.ImageClickedListener;
 
 
 public class ImageGridFragment extends BaseFragment {
@@ -57,18 +59,25 @@ public class ImageGridFragment extends BaseFragment {
         observeViewModel();
     }
 
+    private ImageClickedListener imageClickedListener =
+            clickedPhoto -> getBaseActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_activity_content, ImageDetailFragment.newInstance(clickedPhoto))
+                    .addToBackStack(null).commit();
+
     private void observeViewModel() {
-        viewModel.getPhotoUrls().observe(getViewLifecycleOwner(), photoUrls -> {
-            GridAdapter gridAdapter = new GridAdapter(getContext(), photoUrls);
+        viewModel.getPhotoUrls().observe(getViewLifecycleOwner(), photos -> {
+            GridAdapter gridAdapter = new GridAdapter(getContext(), photos, imageClickedListener);
             gridView.setAdapter(gridAdapter);
         });
 
         viewModel.getError().observe(getViewLifecycleOwner(), isError -> {
-            if (isError != null) if(isError) {
+            if (isError != null) if (isError) {
                 errorView.setVisibility(View.VISIBLE);
                 gridView.setVisibility(View.GONE);
                 errorView.setText("An Error Occurred While Loading Data!");
-            }else {
+            } else {
                 errorView.setVisibility(View.GONE);
                 errorView.setText(null);
             }

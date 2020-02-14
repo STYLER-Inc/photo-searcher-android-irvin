@@ -12,15 +12,19 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import jp.styler.challenge.R;
+import model.Photo;
 
 public class GridAdapter extends BaseAdapter {
 
-    private List<String> photoUrls;
+    private List<Photo> photoUrls;
     private Context context;
+    private ImageClickedListener listener;
 
-    public GridAdapter(Context context, List<String> photoUrls) {
+
+    public GridAdapter(Context context, List<Photo> photoUrls, ImageClickedListener listener) {
         this.photoUrls = photoUrls;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -55,7 +59,9 @@ public class GridAdapter extends BaseAdapter {
             listViewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context).load(photoUrls.get(position)).into(listViewHolder.imageView);
+        listViewHolder.imageView.setOnClickListener(view -> listener.onImageTap(photoUrls.get(position)));
+
+        Glide.with(context).load(photoUrls.get(position).getThumb()).into(listViewHolder.imageView);
 
         return convertView;
     }

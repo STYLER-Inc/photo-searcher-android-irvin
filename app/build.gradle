@@ -71,6 +71,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:2.24"
     annotationProcessor "com.jakewharton:butterknife-compiler:10.2.1"
 
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
